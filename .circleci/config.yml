@@ -28,6 +28,7 @@ jobs:
           root: .
           paths:
             - build/
+            - node_modules/
             # - test-results/
             # - other-directory/
             # - file.txt
