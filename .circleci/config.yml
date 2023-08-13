@@ -14,7 +14,6 @@ jobs:
       - run: echo "Build front end job"
       - run:
           command: |
-            cd src/frontend
             npm install
             npm run build
       - persist_to_workspace:
