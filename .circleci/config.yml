@@ -21,10 +21,6 @@ jobs:
           paths:
             - build/
             - node_modules/
-      # - store_artifacts:
-      #     path: 
-      #       - build/
-      #       - node_modules/
   test-fe:
     executor: node_18_executor
     steps:
@@ -37,11 +33,16 @@ jobs:
             ls -a
             npm test
   deploy-fe:
-    docker:
-      - image: cimg/base:2023.03
+    executor: node_18_executor
     steps:
       - checkout
-      - run: echo "this is the deploy job"
+      - run: echo "This is the deploy job"
+      - attach_workspace:
+          at: .
+      - run:
+          command: |
+            npm i gh-pages
+            npm run deploy
 # Orchestrate our job run sequence
 workflows:
   default:
