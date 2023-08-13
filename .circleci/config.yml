@@ -54,22 +54,8 @@ jobs:
 workflows:
   pull_request_workflow:
     jobs:
-      - build-fe:
-          filters:
-            branches:
-              only:
-                - dev
-                - stg
-                - prod
-      - test-fe:
-          requires:
-            - build-fe
-          filters:
-              branches:
-                only:
-                  - dev
-                  - stg
-                  - prod
+      - build-fe
+      - test-fe
   default:
     jobs:
       - build-fe:
