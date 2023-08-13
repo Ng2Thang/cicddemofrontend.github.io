@@ -7,6 +7,14 @@ executors:
 
 # Define the jobs we want to run for this project
 jobs:
+  prebuild-fe:
+    executor: node_18_executor
+    steps:
+      - checkout
+      - run:
+          command: |
+            npm i react-scripts
+            npm i gh-pages
   build-fe:
     executor: node_18_executor
     steps:
