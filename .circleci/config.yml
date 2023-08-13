@@ -18,6 +18,7 @@ jobs:
           command: |
             npm install
             npm run build
+            ls -a
       - persist_to_workspace:
           root: .
           paths:
