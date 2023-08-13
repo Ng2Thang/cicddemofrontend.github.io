@@ -27,11 +27,9 @@ jobs:
       - persist_to_workspace:
           root: .
           paths:
-            - build/
             - node_modules/
       - store_artifacts:
           path: 
-            - build/
             - node_modules/
   test-fe:
     executor: node_18_executor
