@@ -28,8 +28,11 @@ jobs:
             root: .
             paths:
               - build/
+              - node_modules/
       - store_artifacts:
-          path: ./build 
+          path: 
+            - ./build
+            - ./node_modules
   test-fe:
     executor: node_18_executor
     steps:
