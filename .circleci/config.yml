@@ -55,7 +55,15 @@ workflows:
   pull_request_workflow:
     jobs:
       - build-fe
-      - test-fe
+      - test-fe:
+          requires:
+            - build-fe
+          filters:
+            branches:
+              ignore:
+                - dev
+                - stg
+                - prod
   default:
     jobs:
       - build-fe:
