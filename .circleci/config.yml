@@ -26,11 +26,9 @@ jobs:
             npm run build
       - persist_to_workspace:
           root: .
-          paths:
-            - node_modules/
+          paths: node_modules/
       - store_artifacts:
-          path: 
-            - node_modules/
+          path: node_modules/
   test-fe:
     executor: node_18_executor
     steps:
