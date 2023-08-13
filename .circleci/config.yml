@@ -43,7 +43,6 @@ jobs:
           npm i gh-pages
           git config --local user.email $GITHUB_EMAIL
           git config --local user.name $GITHUB_USER
-          git remote add origin https://$GITHUB_TOKEN@github.com/ng2thang.github.io/cicddemofrontend.github.io
           git remote -v
           
 # Orchestrate our job run sequence
