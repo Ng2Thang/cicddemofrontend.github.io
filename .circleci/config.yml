@@ -51,7 +51,16 @@ jobs:
 workflows:
   default:
     jobs:
+      - prebuild-fe:
+            filters:
+              branches:
+                only:
+                  - dev
+                  - stg
+                  - prod
       - build-fe:
+          requires:
+            - prebuild-fe
           filters:
             branches:
               only:
