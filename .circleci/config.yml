@@ -58,6 +58,12 @@ workflows:
       - test-fe:
           requires:
             - build-fe
+          filters:
+            branches:
+              ignore:
+                - dev
+                - stg
+                - prod
   default:
     jobs:
       - build-fe:
