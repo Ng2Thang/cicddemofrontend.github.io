@@ -7,14 +7,6 @@ executors:
 
 # Define the jobs we want to run for this project
 jobs:
-  prebuild-fe:
-    executor: node_18_executor
-    steps:
-      - checkout
-      - run:
-          command: |
-            npm i react-scripts
-            npm i gh-pages
   build-fe:
     executor: node_18_executor
     steps:
@@ -29,9 +21,6 @@ jobs:
           paths:
             - build/
             - node_modules/
-            # - test-results/
-            # - other-directory/
-            # - file.txt
       # - store_artifacts:
       #     path: 
       #       - build/
@@ -57,16 +46,7 @@ jobs:
 workflows:
   default:
     jobs:
-      - prebuild-fe:
-            filters:
-              branches:
-                only:
-                  - dev
-                  - stg
-                  - prod
       - build-fe:
-          requires:
-            - prebuild-fe
           filters:
             branches:
               only:
