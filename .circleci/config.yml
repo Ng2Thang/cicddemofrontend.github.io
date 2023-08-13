@@ -1,0 +1,61 @@
+version: 2.1
+
+executors:
+  node_18_executor:
+    docker:
+      - image: cimg/node:18.17.1
+
+# Define the jobs we want to run for this project
+jobs:
+  build-fe:
+    executor: node_18_executor
+    steps:
+      - checkout
+      - run: echo "Build front end job"
+      - run:
+          command: |
+            npm install
+            npm run build
+      - persist_to_workspace:
+            root: .
+            paths:
+              - src/
+      - store_artifacts:
+          path: src/frontend/build 
+  test-fe:
+    executor: node_18_executor
+    steps:
+      - checkout
+      - run: echo "this is the test job"
+      - attach_workspace:
+          at: .
+      - run:
+          command: |
+            cd src/frontend
+            npm test
+  deploy-fe:
+    docker:
+      - image: cimg/base:2023.03
+    steps:
+      - checkout
+      - run: echo "this is the deploy job"
+# Orchestrate our job run sequence
+workflows:
+  default:
+    jobs:
+      - build-fe:
+          filters:
+            branches:
+              only:
+                - dev
+                - stg
+                - prod
+      - test-fe:
+          requires:
+            - build-fe
+          filters:
+              branches:
+                only:
+                  - dev
+                  - stg
+                  - prod
