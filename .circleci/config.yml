@@ -39,8 +39,8 @@ jobs:
           at: .
       - run:
           command: |
-            npm test
             ls -a
+            npm test
   deploy-fe:
     docker:
       - image: cimg/base:2023.03
