@@ -13,7 +13,7 @@ jobs:
       - checkout
       - run: echo "Build front end job"
       - run:
-          command: sh ./build_scripts.sh $CIRCLE_BRANCH $APP_BUILD_VERSION
+          command: sh ./build_scripts.sh $CIRCLE_BRANCH $REACT_APP_VERSION_RELEASE
       - run:
           command: |
             npm install
