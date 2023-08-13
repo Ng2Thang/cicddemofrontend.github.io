@@ -40,7 +40,7 @@ jobs:
       - attach_workspace:
           at: .
       - run: |
-          npm install gh-pages
+          npm install --save-dev gh-pages
           git config --local user.email $GITHUB_EMAIL
           git config --local user.name $GITHUB_USER
           git remote -v
