@@ -23,6 +23,7 @@ jobs:
           paths:
             - build/
             - node_modules/
+            - ./env
   test-fe:
     executor: node_18_executor
     steps:
