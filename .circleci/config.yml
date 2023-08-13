@@ -14,25 +14,26 @@ jobs:
       - run: echo "Build front end job"
       - run:
           command: |
+            cd src/frontend
             npm install
             npm run build
       - persist_to_workspace:
             root: .
             paths:
-              - src/
+              - build/
       - store_artifacts:
-          path: src/frontend/build 
+          path: ./build 
   test-fe:
     executor: node_18_executor
     steps:
       - checkout
-      - run: echo "this is the test job"
+      - run: echo "This is the test job"
       - attach_workspace:
           at: .
       - run:
           command: |
-            cd src/frontend
             npm test
+            ls -a
   deploy-fe:
     docker:
       - image: cimg/base:2023.03
@@ -53,6 +54,15 @@ workflows:
       - test-fe:
           requires:
             - build-fe
+          filters:
+              branches:
+                only:
+                  - dev
+                  - stg
+                  - prod
+      - deploy-fe:
+          requires:
+            - test-fe
           filters:
               branches:
                 only:
