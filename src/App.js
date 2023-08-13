@@ -21,7 +21,7 @@ function App() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Learcn React Feature 2.2.3 Now <br></br>
+          Learn React Feature 2.2.3 Now <br></br>
           {appEnv ? (
             <div>
               <p>ENV: {appEnv}</p>
