@@ -18,7 +18,6 @@ jobs:
           command: |
             npm install
             npm run build
-            ls -a
       - persist_to_workspace:
           root: .
           paths:
@@ -48,7 +47,6 @@ jobs:
           git config --local user.name $GITHUB_USER
           echo "machine github.com login $GITHUB_USER password $GITHUB_TOKEN" > ~/.netrc
       - run: |
-          ls -a
           npm run deploy
 # Orchestrate our job run sequence
 workflows:
