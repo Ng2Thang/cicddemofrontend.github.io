@@ -13,34 +13,61 @@ jobs:
       - checkout
       - run: echo "Build front end job"
       - run:
+          command: sh ./build_scripts.sh $CIRCLE_BRANCH $REACT_APP_VERSION_RELEASE
+      - run:
           command: |
             npm install
             npm run build
       - persist_to_workspace:
-            root: .
-            paths:
-              - src/
-      - store_artifacts:
-          path: src/frontend/build 
+          root: .
+          paths:
+            - build/
+            - node_modules/
+            - ./.env
   test-fe:
     executor: node_18_executor
     steps:
       - checkout
-      - run: echo "this is the test job"
+      - run: echo "This is the test job"
       - attach_workspace:
           at: .
       - run:
           command: |
-            cd src/frontend
             npm test
   deploy-fe:
-    docker:
-      - image: cimg/base:2023.03
+    executor: node_18_executor
     steps:
       - checkout
-      - run: echo "this is the deploy job"
+      - run: echo "This is the deploy job"
+      - attach_workspace:
+          at: .
+      - run: |
+          npm install --save-dev gh-pages
+          git config --local user.email $GITHUB_EMAIL
+          git config --local user.name $GITHUB_USER
+          echo "machine github.com login $GITHUB_USER password $GITHUB_TOKEN" > ~/.netrc
+      - run: |
+          npm run deploy
 # Orchestrate our job run sequence
 workflows:
+  pull_request_workflow:
+    jobs:
+      - build-fe:
+          filters:
+              branches:
+                ignore:
+                  - dev
+                  - stg
+                  - prod
+      - test-fe:
+          requires:
+            - build-fe
+          filters:
+            branches:
+              ignore:
+                - dev
+                - stg
+                - prod
   default:
     jobs:
       - build-fe:
@@ -53,6 +80,15 @@ workflows:
       - test-fe:
           requires:
             - build-fe
+          filters:
+              branches:
+                only:
+                  - dev
+                  - stg
+                  - prod
+      - deploy-fe:
+          requires:
+            - test-fe
           filters:
               branches:
                 only:

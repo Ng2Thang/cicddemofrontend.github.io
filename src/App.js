@@ -4,10 +4,11 @@ import './App.css';
 
 function App() {
   const [appVersion, setAppVersion] = useState(null);
+  const [appEnv, setAppEnv] = useState(null);
 
   useEffect(() => {
-    console.log('process.env.REACT_APP_VERSION_RELEASE', process.env.REACT_APP_VERSION_RELEASE)
     setAppVersion(process.env.REACT_APP_VERSION_RELEASE ? process.env.REACT_APP_VERSION_RELEASE : null)
+    setAppEnv(process.env.REACT_APP_ENV_PARAM ? process.env.REACT_APP_ENV_PARAM : null)
   }, []);
 
   return (
@@ -20,7 +21,14 @@ function App() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Learn React
+          Learn React Feature 2.2.5 <br></br>
+          {appEnv ? (
+            <div>
+              <p>ENV: {appEnv}</p>
+            </div>
+          ) : (
+            <p>Loading environment...</p>
+          )}
         </a>
         {appVersion ? (
           <div>
