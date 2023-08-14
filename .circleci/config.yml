@@ -13,7 +13,7 @@ jobs:
       - checkout
       - run: echo "Build front end job"
       - run:
-          command: ./build_scripts.sh $CIRCLE_BRANCH $APP_BUILD_VERSION
+          command: sh ./build_scripts.sh $CIRCLE_BRANCH $REACT_APP_VERSION_RELEASE
       - run:
           command: |
             npm install
@@ -23,6 +23,7 @@ jobs:
           paths:
             - build/
             - node_modules/
+            - ./.env
   test-fe:
     executor: node_18_executor
     steps:
@@ -44,13 +45,29 @@ jobs:
           npm install --save-dev gh-pages
           git config --local user.email $GITHUB_EMAIL
           git config --local user.name $GITHUB_USER
-          git remote -v
           echo "machine github.com login $GITHUB_USER password $GITHUB_TOKEN" > ~/.netrc
       - run: |
-          ls -a
           npm run deploy
 # Orchestrate our job run sequence
 workflows:
+  pull_request_workflow:
+    jobs:
+      - build-fe:
+          filters:
+              branches:
+                ignore:
+                  - dev
+                  - stg
+                  - prod
+      - test-fe:
+          requires:
+            - build-fe
+          filters:
+            branches:
+              ignore:
+                - dev
+                - stg
+                - prod
   default:
     jobs:
       - build-fe:
