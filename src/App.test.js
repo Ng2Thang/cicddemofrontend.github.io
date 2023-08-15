@@ -9,6 +9,6 @@ test('renders learn react link', () => {
 
 test('show Now text', () => {
   render(<App />);
-  const linkElement = screen.getByText(/Learn React Feature 2.2.5/i);
+  const linkElement = screen.getByText(/Learn React Feature 2.2.6/i);
   expect(linkElement).toBeInTheDocument();
 });
